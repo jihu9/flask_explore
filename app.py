@@ -4,7 +4,7 @@
 
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
-     abort, render_template, flash
+    abort, render_template, flash
 from contextlib import closing
 import random
 from pyecharts import Scatter3D
@@ -19,7 +19,6 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 
 app = Flask(__name__)
-
 
 
 @app.route("/")
@@ -45,8 +44,6 @@ def generate_3d_random_point():
     return [random.randint(0, 100),
             random.randint(0, 100),
             random.randint(0, 100)]
-
-
 
 
 if __name__ == '__main__':
