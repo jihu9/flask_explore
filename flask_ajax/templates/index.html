@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <title>ECharts3 Ajax</title>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
-    <script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+    <script src="https://cdn.bootcss.com/echarts/3.7.1/echarts.js"></script>
 </head>
 
 <body>
     <!--为ECharts准备一个具备大小（宽高）的Dom-->
     <div id="main" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
-
+    <div id="gs8" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
     <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main'));
 
@@ -41,7 +41,7 @@
     myChart.showLoading(); // 显示加载动画
 
     // 异步加载数据
-    $.get('/weather').done(function (data) {
+    $.post('/weather').done(function (data) {
         myChart.hideLoading(); // 隐藏加载动画
 
         // 填入数据
@@ -58,6 +58,45 @@
             }]
         });
     });
+    </script>
+    <script type="text/javascript">
+    var gs8 = echarts.init(document.getElementById('gs8'));
+
+    // 设置gs8图例
+    gs8.setOption({
+        title: {
+            text: '正在数据加载示例'
+        },
+        tooltip: {},
+        legend: {
+            data:['每月发帖量']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '发帖量',
+            type: 'bar',
+            data: []
+        }]
+    })
+    gs8.showLoading(); // 显示加载动画
+    // 异步加载数据
+    $.post('/gs8').done(function (data) {
+        gs8.hideLoading(); // 隐藏加载动画
+
+        // 填入数据
+        gs8.setOption({
+            xAxis: {
+                data: data.month
+            },
+            series: [{
+                name: '发帖量', // 根据名字对应到相应的系列
+                data: data.nums.map(parseFloat) // 转化为数字（注意map）
+            }]
+        });
+    })
     </script>
 </body>
 </html>
