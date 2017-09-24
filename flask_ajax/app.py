@@ -6,9 +6,11 @@
 import sqlite3, time
 from flask import Flask, request, render_template, jsonify
 from tinydb import TinyDB, Query
+from flask_bootstrap import Bootstrap
+
 
 app = Flask(__name__)
-
+Bootstrap(app)
 
 def get_db():
     db = sqlite3.connect('mydb.db')
@@ -24,8 +26,9 @@ def query_db(query, args=(), one=False):
     db.close()
     return (rv[0] if rv else None) if one else rv
 
-def get_gs8():
-    db = TinyDB('gs8.json')
+
+def get_data(name):
+    db = TinyDB('{}.json'.format(name))
     q = Query()
     lst = []
     for i in [str(a)[1:] for a in range(101,113,1)]:
@@ -37,6 +40,7 @@ def get_gs8():
     db.close()
     print(lst)
     return lst
+
 # get_gs8()
 @app.route("/", methods=["GET"])
 def index():
@@ -57,12 +61,14 @@ def weather():
 def gs8():
     if request.method == 'POST':
         t1 = time.time()
-        res = get_gs8()
+        gs8 = get_data('gs8')
+        gs4 = get_data('gs4')
         print('it cost {} s!'.format(time.time()-t1))
-    return jsonify(month=[x[0] for x in res],
-                   nums = [x[1] for x in res])
+    return jsonify( month = [x[0] for x in gs8],
+                    gs8 = [x[1] for x in gs8],
+                    gs4 = [x[1] for x in gs4] )
 
 
 
 if __name__ == "__main__":
-    app.run(debug=True,host='127.0.0.1',port=8080)
+    app.run(debug=True)

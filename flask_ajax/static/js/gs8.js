@@ -3,18 +3,22 @@
     // 设置gs8图例
     gs8.setOption({
         title: {
-            text: '正在数据加载示例'
+            text: ''
         },
         tooltip: {},
         legend: {
-            data:['每月发帖量']
+            data:['gs4发帖量','gs8发帖量']
         },
         xAxis: {
             data: []
         },
         yAxis: {},
         series: [{
-            name: '发帖量',
+            name: 'gs4发帖量',
+            type: 'bar',
+            data: []
+        },{
+            name: 'gs8发帖量',
             type: 'bar',
             data: []
         }]
@@ -30,8 +34,11 @@
                 data: data.month
             },
             series: [{
-                name: '发帖量', // 根据名字对应到相应的系列
-                data: data.nums.map(parseFloat) // 转化为数字（注意map）
+                name: 'gs4发帖量', // 根据名字对应到相应的系列
+                data: data.gs4.map(parseFloat) // 转化为数字（注意map）
+            },{
+                name: 'gs8发帖量', // 根据名字对应到相应的系列
+                data: data.gs8.map(parseFloat) // 转化为数字（注意map）
             }]
         });
     })

@@ -1,24 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>ECharts3 Ajax</title>
+{% extends "bootstrap/base.html" %}
+
+{% block title %}汽车之家论坛数据分析{% endblock %}
+
+{% block head %}
     <script src="static/js/jquery.js"></script>
     <script src="static/js/echarts.js"></script>
     <script src='static/js/macarons.js' type="text/javascript"></script>
-</head>
+    <link rel='shortcut icon' type='image/x-icon' href='static/favicon.ico' />
+    {{ super() }}
+{% endblock %}
 
-<body>
+{% block navbar %}
+    <div class="navbar navbar-brand">
+        <ul class="nav nav-pills nav-justified">
+          <li role="presentation" class="active"><a href="/">首页</a></li>
+          <li role="presentation"><a href="#">哈弗H6</a></li>
+          <li role="presentation"><a href="#">宝骏510</a></li>
+          <li role="presentation"><a href="#">传祺GS4</a></li>
+          <li role="presentation"><a href="#">吉利博越</a></li>
+          <li role="presentation"><a href="#">荣威</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
     <!--为ECharts准备一个具备大小（宽高）的Dom-->
-    <div id="main" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
-    <div id="gs8" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+    <!-- style="height:500px;border:1px solid #ccc;padding:10px;" -->
+    <div class="row" style="width: 100%;height:50px;"></div>
+
+    <div class="row" >
+        <div class="col-md-12 panel panel-default">
+            <h3 class="text-center">最HOT SUV论坛热度排行</h3>
+            <div id="main" style="width: 100%;height:500px;"></div>
+        </div>
+        <div class="col-md-6 panel panel-default">
+            <h3 class="text-center">异步数据加载示例</h3>
+            <div id="main" style="width: 100%;height:500px;"></div>
+        </div>
+        <div class="col-md-6 panel panel-default">
+            <h3 class="text-center">汽车之家论坛传祺发帖量</h3>
+            <div class="div" id="gs8" style="width: 100%;height:500px;"></div>
+
+        </div>
+    </div>
+
+
+    <script src='static/js/gs8.js' type="text/javascript"></script>
     <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main'),'macarons');
 
     // 显示标题，图例和空的坐标轴
     myChart.setOption({
         title: {
-            text: '异步数据加载示例'
+            text: ''
         },
         tooltip: {},
         legend: {
@@ -59,7 +93,11 @@
             }]
         });
     });
+    $(window).on('resize', function(){
+        if(myChart != null && myChart != undefined){
+            myChart.resize();
+        }
+    });
     </script>
-    <script src='static/js/gs8.js' type="text/javascript"></script>
-</body>
-</html>
+
+{% endblock %}
